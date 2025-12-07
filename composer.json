@@ -46,7 +46,7 @@
     "symfony/property-access": "*",
     "symfony/property-info": "*",
     "symfony/proxy-manager-bridge": "*",
-    "symfony/runtime": "*",
+    "symfony/runtime": "^6.2",
     "symfony/security-bundle": "*",
     "symfony/serializer": "*",
     "symfony/string": "*",

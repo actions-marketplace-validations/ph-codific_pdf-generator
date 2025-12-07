@@ -1,13 +1,27 @@
-name: Symfony
+name: Symfony_workflow
 
 on:
-  push:
-    branches:
-      - 'trans_2.0'
-  workflow_dispatch:
-
-permissions:
-  contents: read
+  workflow_call:
+    inputs:
+      keep_alive:
+        description: 'docker keep alive'
+        required: true
+        default: "1"
+        type: string
+      url:
+        description: 'The url of the repo'
+        required: true
+        default: https://github.com/owaspsamm/core
+        type: string
+      branch:
+        description: 'branch of the repo'
+        required: true
+        default: main
+        type: string
+      language:
+        description: 'the language'
+        default: en
+        type: string
 
 jobs:
   generate-pdf:
@@ -28,10 +42,14 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+      - uses: actions/checkout@v2
+        with:
+          repository: ph-codific/pdf-generator
+          ref: main
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Create Database
-        run: sh scripts/generate_pdf.sh
+        run: sh scripts/generate_pdf.sh -a ${{ inputs.keep_alive }} -u ${{ inputs.url }} -b ${{ inputs.branch }} -l ${{ inputs.language }}
       - uses: actions/upload-artifact@v3
         with:
           name: samm.pdf

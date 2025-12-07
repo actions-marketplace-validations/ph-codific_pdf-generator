@@ -1,0 +1,30 @@
+name: Symfony PDF Generator
+description: Generate a PDF from a Symfony repository
+branding:
+  icon: package
+  color: blue
+inputs:
+  keep_alive:
+    description: 'docker keep alive'
+    required: true
+  url:
+    description: 'The url of the repo'
+    required: true
+  branch:
+    description: 'branch of the repo'
+    required: true
+  model:
+    description: 'the model'
+    required: true
+  language:
+    description: 'the language'
+    required: true
+runs:
+  using: 'docker'
+  image: 'docker://phcodific/pdf-generator:latest'
+  args:
+    - ${{ inputs.keep_alive }}
+    - ${{ inputs.url }}
+    - ${{ inputs.branch }}
+    - ${{ inputs.model }}
+    - ${{ inputs.language }}
